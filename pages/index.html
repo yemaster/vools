@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.2, minimum-scale=1, maximum-scale=1">
+    <title>Vool!</title>
+    <link rel="stylesheet" type="text/css" href="./statics/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="./statics/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="./vool.css">
+    <script src="./statics/jquery.min.js"></script>
+    <script src="./statics/semantic.min.js"></script>
+    <script src="./statics/vue.min.js"></script>
+    <script src="./statics/sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="./statics/sweetalert2.min.css">
+</head>
+
+<body>
+    <div id="app">
+        <div class="ui active inverted dimmer fadeIn" v-show="isloading" style="backdrop-filter: blur(3px)">
+            <div class="ui text elastic inline blue loader">Loading</div>
+        </div>
+        <div class="ui left fixed vertical icon borderless menu vmenu primary">
+            <div class="menuScroller"></div>
+            <a class="item" v-for="(tabMenuItem,k) in menu.tabMenuItems" v-bind:key="k" @click="changeTab(k)"
+                :class="{ active: menu.chosenTab == tabMenuItem.page}">
+                <!--i :class="tabMenuItem.icon+' icon'"></i-->
+                <i :class="'icon iconfont icon-'+tabMenuItem.icon"></i>
+                <span class="text">{{ tabMenuItem.name }}</span>
+            </a>
+        </div>
+        <div class="ui app" id="VetyContainer" style="height: 100%;">
+            <div class="topButtons">
+                <a class="topButton red" id="closebtn"><i class="icon iconfont icon-24gl-cross"></i></a>
+                <a class="topButton" id="maxbtn">
+                    <i class="icon iconfont icon-24gl-square" v-if="!isMax"></i>
+                    <i class="icon iconfont icon-24gl-minimize" v-else></i>
+                </a>
+                <a class="topButton" id="minbtn"><i class="icon iconfont icon-24gl-minimization"></i></a>
+            </div>
+            <div class="topBar">
+                <span>
+                    <img src="./imgs/logo.ico" class="icon">{{ app.name }}
+                </span>
+            </div>
+            <div class='ui tab' ref="Home">
+                <h1 class="page-title">Apps List</h1>
+                <div class="homeBtns">
+                    <div style="float: left">
+                        <button class="ui blue squared homebtn icon labeled button" data-tooltip="Install New Apps">
+                            <i class="icon plus"></i>Install</button>
+                    </div>
+                    <div style="float: right">
+                        <button class="ui white squared homebtn icon labeled button"
+                            data-tooltip="Manage Installed Apps">
+                            <i class="wrench icon"></i>Manage</button>
+                    </div>
+                    <div style="clear:both"></div>
+                </div>
+                <div class="vetyCard">
+                    <div class="ui unstackable divided link items">
+                        <div class="item" v-for="(d,i) in appList" v-bind:key="i" @click="openApp(i)">
+                            <div class="ui tiny image" style="width: 64px !important;">
+                                <img :src="d.AppFiles.LogoFile">
+                            </div>
+                            <div class="content">
+                                <div class="header">{{ d.AppName }}</div>
+                                <div class="description">
+                                    {{ d.AppDescription }}
+                                </div>
+                                <div class="extra">
+                                    {{ d.AppId }}@{{ d.AppVersion }} by {{ d.AppAuthor }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='ui tab' ref="FileList">
+                <h1 class="page-title"></h1>
+
+            </div>
+            <div class='ui tab' ref="About">
+                <h1 class="page-title">关于</h1>
+                <div class="vetyCard">{{ app.name }} by {{ app.author }}</div>
+            </div>
+        </div>
+    </div>
+    <script src="./vool.js"></script>
+    <script src="../renderer.js"></script>
+</body>
+
+</html>
